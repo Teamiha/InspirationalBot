@@ -1,13 +1,14 @@
 import { InlineKeyboard } from "@grammyjs/bot";
 
-
 export const startKeyboard = new InlineKeyboard()
-  .text("Процесс обустройки замка", "castleProcess")
+  .text("Отписаться от рассылки", "unsubscribe")
   .row()
-  .text("Информация", "info")
+  .text("Информация о боте", "info");
+
+export const adminKeyboard = new InlineKeyboard()
+  .text("Список подписчиков", "subscribersList")
+
+export const registrationKeyboard = new InlineKeyboard()
+  .text("Подписаться на рассылку", "subscribe")
   .row()
-  .text("Анонимное сообщение", "anonMessage")
-  .row()
-  // .text("Добавить вещь в глобальный виш-лист", "addWish")
-  // .row()
-  .text("Админский раздел", "adminZone");
+  .text("Информация о боте", "info")
