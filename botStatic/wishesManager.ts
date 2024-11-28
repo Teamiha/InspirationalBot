@@ -10,7 +10,7 @@ export async function getTodayWish(): Promise<string> {
   const kv = await getKv();
   const state = await kv.get<WishesState>(["lenaBot", "wishes"]);
 
-  let wishesState: WishesState = state.value || {
+  const wishesState: WishesState = state.value || {
     usedWishes: [],
     currentWishId: null,
   };
@@ -39,14 +39,14 @@ export async function getTodayWish(): Promise<string> {
   return selectedWish.text;
 }
 
-export async function getCurrentWish(): Promise<string | null> {
-  const kv = await getKv();
-  const state = await kv.get<WishesState>(["lenaBot", "wishes"]);
+// export async function getCurrentWish(): Promise<string | null> {
+//   const kv = await getKv();
+//   const state = await kv.get<WishesState>(["lenaBot", "wishes"]);
 
-  if (!state.value || state.value.currentWishId === null) {
-    return null;
-  }
+//   if (!state.value || state.value.currentWishId === null) {
+//     return null;
+//   }
 
-  const wish = wishesList.find((w) => w.id === state.value.currentWishId);
-  return wish ? wish.text : null;
-}
+//   const wish = wishesList.find((w) => w.id === state.value.currentWishId);
+//   return wish ? wish.text : null;
+// }
