@@ -9,10 +9,10 @@ interface WishesState {
 export async function getTodayWish(): Promise<string> {
   const kv = await getKv();
   const state = await kv.get<WishesState>(["lenaBot", "wishes"]);
-  
+
   let wishesState: WishesState = state.value || {
     usedWishes: [],
-    currentWishId: null
+    currentWishId: null,
   };
 
   // Если все предсказания использованы, сбрасываем список
@@ -22,7 +22,7 @@ export async function getTodayWish(): Promise<string> {
 
   // Получаем доступные предсказания
   const availableWishes = wishesList.filter(
-    wish => !wishesState.usedWishes.includes(wish.id)
+    (wish) => !wishesState.usedWishes.includes(wish.id),
   );
 
   // Выбираем случайное предсказание
@@ -42,11 +42,11 @@ export async function getTodayWish(): Promise<string> {
 export async function getCurrentWish(): Promise<string | null> {
   const kv = await getKv();
   const state = await kv.get<WishesState>(["lenaBot", "wishes"]);
-  
+
   if (!state.value || state.value.currentWishId === null) {
     return null;
   }
 
-  const wish = wishesList.find(w => w.id === state.value.currentWishId);
+  const wish = wishesList.find((w) => w.id === state.value.currentWishId);
   return wish ? wish.text : null;
-} 
+}

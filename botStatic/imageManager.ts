@@ -9,10 +9,10 @@ interface ImageState {
 export async function getTodayImage(): Promise<string> {
   const kv = await getKv();
   const state = await kv.get<ImageState>(["lenaBot", "images"]);
-  
+
   let imageState: ImageState = state.value || {
     usedImages: [],
-    currentImageId: null
+    currentImageId: null,
   };
 
   // Если все изображения использованы, сбрасываем список
@@ -22,7 +22,7 @@ export async function getTodayImage(): Promise<string> {
 
   // Получаем доступные изображения
   const availableImages = imageLinks.filter(
-    image => !imageState.usedImages.includes(image.id)
+    (image) => !imageState.usedImages.includes(image.id),
   );
 
   // Выбираем случайное изображение
@@ -42,11 +42,11 @@ export async function getTodayImage(): Promise<string> {
 export async function getCurrentImage(): Promise<string | null> {
   const kv = await getKv();
   const state = await kv.get<ImageState>(["lenaBot", "images"]);
-  
+
   if (!state.value || state.value.currentImageId === null) {
     return null;
   }
 
-  const image = imageLinks.find(img => img.id === state.value.currentImageId);
+  const image = imageLinks.find((img) => img.id === state.value.currentImageId);
   return image ? image.url : null;
-} 
+}

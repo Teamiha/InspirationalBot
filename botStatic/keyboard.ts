@@ -6,9 +6,9 @@ export const startKeyboard = new InlineKeyboard()
   .text("Информация о боте", "info");
 
 export const adminKeyboard = new InlineKeyboard()
-  .text("Список подписчиков", "subscribersList")
+  .text("Список активных подписчиков", "subscribersList");
 
 export const registrationKeyboard = new InlineKeyboard()
   .text("Подписаться на рассылку", "subscribe")
   .row()
-  .text("Информация о боте", "info")
+  .text("Информация о боте", "info");

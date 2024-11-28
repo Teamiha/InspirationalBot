@@ -1,8 +1,11 @@
 import { getUserParametr, updateUser } from "../db.ts";
 import { Context } from "@grammyjs/bot";
 import { SUPERUSER } from "../token.ts";
-import { adminKeyboard, registrationKeyboard, startKeyboard } from "../botStatic/keyboard.ts";
-
+import {
+  adminKeyboard,
+  registrationKeyboard,
+  startKeyboard,
+} from "../botStatic/keyboard.ts";
 
 export async function botStart(ctx: Context) {
   const userId = ctx.from?.id;
@@ -16,10 +19,10 @@ export async function botStart(ctx: Context) {
     const userHasSubscription = await getUserParametr(userId, "status");
 
     if (userId === Number(SUPERUSER)) {
-        await ctx.reply("Добро пожаловать, госпожа!", {
-            reply_markup: adminKeyboard,
-          });
-          return;
+      await ctx.reply("Добро пожаловать, госпожа!", {
+        reply_markup: adminKeyboard,
+      });
+      return;
     }
 
     if (userHasSubscription === false) {

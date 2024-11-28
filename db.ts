@@ -17,17 +17,17 @@ export async function addUser(userId: number) {
     dateEndSubscription: "",
   };
 
-  await kv.set(["lenaBot", "userId:", userId], newUser);
+  await kv.set(["lenaBot", "user", userId], newUser);
 }
 
 export async function getUser(userId: number) {
   const kv = await getKv();
 
-  const user = await kv.get<UserData>(["lenaBot", "userId:", userId]);
+  const user = await kv.get<UserData>(["lenaBot", "user", userId]);
 
   if (!user.value) {
     await addUser(userId);
-    const newUserData = await kv.get(["lenaBot", "userId:", userId]);
+    const newUserData = await kv.get(["lenaBot", "user", userId]);
     console.log("new user");
 
     return newUserData;
@@ -49,17 +49,77 @@ export async function updateUser<Key extends keyof UserData>(
   dataUpdate: Key,
   valueUpdate: UserData[Key],
 ) {
-  const kv = await Deno.openKv();
-  const currentData = await kv.get<UserData>(["lenaBot", "userId:", userId]);
+  const kv = await getKv();
+  const currentData = await kv.get<UserData>(["lenaBot", "user", userId]);
   if (
     currentData && currentData.value && `${dataUpdate}` in currentData.value
   ) {
     currentData.value[dataUpdate] = valueUpdate;
-    await kv.set(["lenaBot", "userId:", userId], currentData.value);
+    await kv.set(["lenaBot", "user", userId], currentData.value);
   } else {
     console.log("Запись не найдена");
   }
-  await kv.close();
 }
 
+export async function addUserToSubscribers(userId: number) {
+  const kv = await getKv();
 
+  const result = await kv.get<number[]>(["lenaBot", "subscribers"]);
+  const subscribersList = result.value || [];
+
+  if (!subscribersList.includes(userId)) {
+    subscribersList.push(userId);
+    await kv.set(["lenaBot", "subscribers"], subscribersList);
+  }
+}
+
+export async function deleteUserFromSubscribers(userId: number) {
+  const kv = await getKv();
+
+  const result = await kv.get<number[]>(["lenaBot", "subscribers"]);
+  const subscribersList = result.value || [];
+
+  const updatedList = subscribersList.filter((id) => id !== userId);
+  
+  await kv.set(["lenaBot", "subscribers"], updatedList);
+}
+
+export async function getMailingList(): Promise<number[]> {
+  const kv = await getKv();
+  const subscribers = await kv.get<number[]>(["lenaBot", "subscribers"]);
+  return subscribers.value || [];
+}
+
+export async function getListActiveSubscribers(): Promise<string> {
+  const kv = await getKv();
+  const subscribers = await kv.get<number[]>(["lenaBot", "subscribers"]);
+  const subscribersList = subscribers.value || [];
+  
+  let result = "";
+  
+  for (const userId of subscribersList) {
+    const userData = await getUser(userId);
+    if (userData.value) {
+      const user = userData.value as UserData;
+      result += `${userId}, ${user.name}, ${user.dateStartSubscription}\n`;
+    }
+  }
+  
+  return result || "Нет активных подписчиков";
+}
+
+export async function activateSubscription(userId: number) {
+
+  await updateUser(userId, "status", true);
+  await updateUser(userId, "dateStartSubscription", await getDate());
+  
+  await addUserToSubscribers(userId);
+}
+
+export async function deactivateSubscription(userId: number) {
+    
+  await updateUser(userId, "status", false);
+  await updateUser(userId, "dateEndSubscription", await getDate());
+  
+  await deleteUserFromSubscribers(userId);
+}

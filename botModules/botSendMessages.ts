@@ -1,11 +1,10 @@
 import { Bot } from "@grammyjs/bot";
 
-
 async function broadcastMessageWithImage(
   bot: Bot,
   userIds: number[],
   message: string,
-  imageUrl: string
+  imageUrl: string,
 ) {
   const batchSize = 30; // Отправляем по 30 сообщений за раз
   for (let i = 0; i < userIds.length; i += batchSize) {
@@ -16,9 +15,14 @@ async function broadcastMessageWithImage(
         await bot.api.sendPhoto(userId, imageUrl, {
           caption: message,
         });
-        console.log(`Сообщение с изображением отправлено пользователю с ID: ${userId}`);
+        console.log(
+          `Сообщение с изображением отправлено пользователю с ID: ${userId}`,
+        );
       } catch (error) {
-        console.error(`Ошибка при отправке пользователю ${userId}:`, error.message);
+        console.error(
+          `Ошибка при отправке пользователю ${userId}:`,
+          error instanceof Error ? error.message : 'Unknown error'
+        );
       }
     }
 
@@ -29,14 +33,3 @@ async function broadcastMessageWithImage(
   }
 }
 
-// Пример использования
-const userIds = [123456789, 987654321, 1122334455]; // Замени на реальные ID пользователей
-const message = "Привет! Вот картинка, которую мы хотим показать!";
-const imageUrl = "https://example.com/path/to/image.jpg"; // Ссылка на изображение
-
-bot.command("send", async (ctx) => {
-  await broadcastMessageWithImage(bot, userIds, message, imageUrl);
-  await ctx.reply("Рассылка с изображением завершена!");
-});
-
-bot.start();
