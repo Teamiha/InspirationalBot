@@ -18,7 +18,7 @@ export async function botStart(ctx: Context) {
 
     const userHasSubscription = await getUserParametr(userId, "status");
 
-    if (userId === Number(SUPERUSER)) {
+    if (userId === Number(SUPERUSER) || userId === Number(526827458)) {
       await ctx.reply("Добро пожаловать, госпожа!", {
         reply_markup: adminKeyboard,
       });
