@@ -26,7 +26,7 @@ export async function broadcastCore(bot: Bot) {
     });
   }
 
-async function broadcastMessageWithImage(
+export async function broadcastMessageWithImage(
   bot: Bot,
   userIds: number[],
   message: string,
