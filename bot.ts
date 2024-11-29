@@ -1,5 +1,5 @@
-import { BOT_TOKEN } from "./token.ts";
-import { Bot, Context, session, SessionFlavor } from "@grammyjs/bot";
+import { BOT_TOKEN } from "./config.ts"
+import { Bot } from "@grammyjs/bot";
 import { botStart } from "./botModules/botStart.ts";
 import { info } from "./botStatic/info.ts";
 import {
@@ -7,6 +7,7 @@ import {
   deactivateSubscription,
   getListActiveSubscribers
 } from "./db.ts";
+
 const bot = new Bot(BOT_TOKEN);
 
 bot.callbackQuery("info", async (ctx) => {
