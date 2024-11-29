@@ -80,7 +80,7 @@ export async function deleteUserFromSubscribers(userId: number) {
   const subscribersList = result.value || [];
 
   const updatedList = subscribersList.filter((id) => id !== userId);
-  
+
   await kv.set(["lenaBot", "subscribers"], updatedList);
 }
 
@@ -94,9 +94,9 @@ export async function getListActiveSubscribers(): Promise<string> {
   const kv = await getKv();
   const subscribers = await kv.get<number[]>(["lenaBot", "subscribers"]);
   const subscribersList = subscribers.value || [];
-  
+
   let result = "";
-  
+
   for (const userId of subscribersList) {
     const userData = await getUser(userId);
     if (userData.value) {
@@ -104,22 +104,20 @@ export async function getListActiveSubscribers(): Promise<string> {
       result += `${userId}, ${user.name}, ${user.dateStartSubscription}\n`;
     }
   }
-  
+
   return result || "Нет активных подписчиков";
 }
 
 export async function activateSubscription(userId: number) {
-
   await updateUser(userId, "status", true);
   await updateUser(userId, "dateStartSubscription", await getDate());
-  
+
   await addUserToSubscribers(userId);
 }
 
 export async function deactivateSubscription(userId: number) {
-    
   await updateUser(userId, "status", false);
   await updateUser(userId, "dateEndSubscription", await getDate());
-  
+
   await deleteUserFromSubscribers(userId);
 }

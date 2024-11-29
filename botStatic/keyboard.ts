@@ -6,7 +6,9 @@ export const startKeyboard = new InlineKeyboard()
   .text("Информация о боте", "info");
 
 export const adminKeyboard = new InlineKeyboard()
-  .text("Список активных подписчиков", "subscribersList");
+  .text("Список активных подписчиков", "subscribersList")
+  .row()
+  .text("Перейти в режим обычного пользователя", "userMode");
 
 export const registrationKeyboard = new InlineKeyboard()
   .text("Подписаться на рассылку", "subscribe")

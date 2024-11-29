@@ -1,4 +1,8 @@
 import { Bot } from "@grammyjs/bot";
+import { getMailingList } from "../db.ts";
+import { getTodayTask } from "../botStatic/taskManager.ts";
+import { getTodayImage } from "../botStatic/imageManager.ts";
+import { getTodayWish } from "../botStatic/wishesManager.ts";
 
 async function broadcastMessageWithImage(
   bot: Bot,
@@ -21,7 +25,7 @@ async function broadcastMessageWithImage(
       } catch (error) {
         console.error(
           `Ошибка при отправке пользователю ${userId}:`,
-          error instanceof Error ? error.message : 'Unknown error'
+          error instanceof Error ? error.message : "Unknown error",
         );
       }
     }
@@ -32,4 +36,3 @@ async function broadcastMessageWithImage(
     }
   }
 }
-
