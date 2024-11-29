@@ -3,7 +3,9 @@ import { InlineKeyboard } from "@grammyjs/bot";
 export const startKeyboard = new InlineKeyboard()
   .text("Отписаться от рассылки", "unsubscribe")
   .row()
-  .text("Информация о боте", "info");
+  .text("Информация о боте", "info")
+  .row()
+  .text("Тестирование", "test");
 
 export const adminKeyboard = new InlineKeyboard()
   .text("Список активных подписчиков", "subscribersList")

@@ -7,8 +7,14 @@ import {
   deactivateSubscription,
   getListActiveSubscribers
 } from "./db.ts";
+import { broadcastCore } from "./botModules/botSendMessages.ts";
 
 const bot = new Bot(BOT_TOKEN);
+
+bot.callbackQuery("test", async (ctx) => {
+    await ctx.answerCallbackQuery();
+    await broadcastCore(bot);
+  });
 
 bot.callbackQuery("info", async (ctx) => {
   await ctx.answerCallbackQuery();
