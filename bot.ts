@@ -43,4 +43,4 @@ bot.command("start", async (ctx) => {
   await botStart(ctx);
 });
 
-bot.start();
+export { bot };
