@@ -1,6 +1,6 @@
 import { getUserParametr, updateUser } from "../db.ts";
 import { Context } from "@grammyjs/bot";
-import { SUPERUSER } from "../token.ts";
+import { SUPERUSER } from "../config.ts"
 import {
   adminKeyboard,
   registrationKeyboard,
