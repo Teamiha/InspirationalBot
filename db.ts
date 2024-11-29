@@ -61,7 +61,7 @@ export async function updateUser<Key extends keyof UserData>(
   }
 }
 
-export async function addUserToSubscribers(userId: number) {
+async function addUserToSubscribers(userId: number) {
   const kv = await getKv();
 
   const result = await kv.get<number[]>(["lenaBot", "subscribers"]);
@@ -73,7 +73,7 @@ export async function addUserToSubscribers(userId: number) {
   }
 }
 
-export async function deleteUserFromSubscribers(userId: number) {
+async function deleteUserFromSubscribers(userId: number) {
   const kv = await getKv();
 
   const result = await kv.get<number[]>(["lenaBot", "subscribers"]);

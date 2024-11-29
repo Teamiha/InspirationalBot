@@ -8,9 +8,13 @@ export const startKeyboard = new InlineKeyboard()
 export const adminKeyboard = new InlineKeyboard()
   .text("Список активных подписчиков", "subscribersList")
   .row()
-  .text("Перейти в режим обычного пользователя", "userMode");
+  .text("Подписаться самой на рассылку", "subscribe")
+  .row()
+  .text("Отписаться самой от рассылки", "unsubscribe");
 
 export const registrationKeyboard = new InlineKeyboard()
   .text("Подписаться на рассылку", "subscribe")
   .row()
   .text("Информация о боте", "info");
+
+
